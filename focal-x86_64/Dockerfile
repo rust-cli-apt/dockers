@@ -21,7 +21,7 @@ RUN curl --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 RUN cargo install cargo-deb
 
-ADD scripts /scripts
+VOLUME /scripts
 
 WORKDIR /src
 

@@ -23,4 +23,6 @@ RUN cargo install cargo-deb
 
 ADD scripts /scripts
 
+WORKDIR /src
+
 ENTRYPOINT [ "/scripts/ripgrep/build-deb" ]

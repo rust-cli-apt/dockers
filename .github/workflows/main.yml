@@ -5,16 +5,16 @@ on:
   push:
     branches: ['master']
 
-env:
-  REGISTRY: ghcr.io
-
 jobs:
   build-and-push-image:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
       packages: write
-
+    strategy:
+      matrix:
+        docker_tag: [bionic-x86_64, focal-x86_64, stretch-x86_64, buster-x86_64, bullseye-x86_64]
+        os: [ubuntu-latest]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -22,42 +22,14 @@ jobs:
       - name: Log in to the Container registry
         uses: docker/login-action@v1
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push bionic Docker image
+      - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: bionic-x86_64/Dockerfile
+          file: ${{ matrix.docker_tag }}/Dockerfile
           push: true
-          tags: 'ghcr.io/${{ github.repository }}:bionic-x86_64'
-      - name: Build and push focal Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: focal-x86_64/Dockerfile
-          push: true
-          tags: 'ghcr.io/${{ github.repository }}:focal-x86_64'
-      - name: Build and push stretch Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: stretch-x86_64/Dockerfile
-          push: true
-          tags: 'ghcr.io/${{ github.repository }}:stretch-x86_64'
-      - name: Build and push buster Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: buster-x86_64/Dockerfile
-          push: true
-          tags: 'ghcr.io/${{ github.repository }}:buster-x86_64'
-      - name: Build and push bullseye Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: bullseye-x86_64/Dockerfile
-          push: true
-          tags: 'ghcr.io/${{ github.repository }}:bullseye-x86_64'
+          tags: 'ghcr.io/${{ github.repository }}:${{ matrix.docker_tag }}'

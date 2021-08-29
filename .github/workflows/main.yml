@@ -33,3 +33,31 @@ jobs:
           file: bionic-x86_64/Dockerfile
           push: true
           tags: 'ghcr.io/${{ github.repository }}:bionic-x86_64'
+      - name: Build and push focal Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: focal-x86_64/Dockerfile
+          push: true
+          tags: 'ghcr.io/${{ github.repository }}:focal-x86_64'
+      - name: Build and push stretch Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: stretch-x86_64/Dockerfile
+          push: true
+          tags: 'ghcr.io/${{ github.repository }}:stretch-x86_64'
+      - name: Build and push buster Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: buster-x86_64/Dockerfile
+          push: true
+          tags: 'ghcr.io/${{ github.repository }}:buster-x86_64'
+      - name: Build and push bullseye Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: bullseye-x86_64/Dockerfile
+          push: true
+          tags: 'ghcr.io/${{ github.repository }}:bullseye-x86_64'

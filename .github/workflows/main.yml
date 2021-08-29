@@ -30,6 +30,7 @@ jobs:
       - name: Build and push bionic Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ./bionic-x86_64
+          context: .
+          file: bionic-x86_64/Dockerfile
           push: true
           tags: '${{ env.IMAGE_NAME }}:bionic-x86_64'
